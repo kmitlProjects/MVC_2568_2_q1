@@ -56,3 +56,8 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.bak
+
+# Documentation for submission (ไม่ต้อง commit)
+คำอธิบายสำหรับ_Google_Classroom.md
+
+
