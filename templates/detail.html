@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายละเอียดข่าวลือ - Rumor Tracking System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1>🔍 ระบบติดตามข่าวลือ</h1>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}">หน้ารวมข่าวลือ</a>
+                <a href="{{ url_for('summary') }}">หน้าสรุปผล</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>📄 หน้ารายละเอียดข่าวลือ</h2>
+            <p class="subtitle">แสดงรายละเอียดข่าวลือและจำนวนรายงาน</p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="detail-container">
+            <div class="rumour-detail {% if rumour.status == 'panic' %}panic{% endif %}">
+                <div class="rumour-header">
+                    <span class="rumour-id">รหัสข่าวลือ: {{ rumour.rumour_id }}</span>
+                    <span class="status-badge status-{{ rumour.status }}">
+                        {{ rumour.status }}
+                    </span>
+                </div>
+
+                <h2 class="rumour-title">{{ rumour.title }}</h2>
+
+                {% if rumour.content %}
+                <div class="rumour-content">
+                    <h4>📖 รายละเอียดเพิ่มเติม:</h4>
+                    <p>{{ rumour.content }}</p>
+                </div>
+                {% endif %}
+
+                <div class="rumour-detail-info">
+                    <div class="info-row">
+                        <strong>📱 แหล่งที่มา:</strong>
+                        <span>{{ rumour.source }}</span>
+                    </div>
+                    <div class="info-row">
+                        <strong>📅 วันที่สร้าง:</strong>
+                        <span>{{ rumour.created_date }}</span>
+                    </div>
+                    <div class="info-row">
+                        <strong>⭐ คะแนนความน่าเชื่อถือ:</strong>
+                        <span>{{ rumour.credibility_score }}/100</span>
+                    </div>
+                    <div class="info-row">
+                        <small style="color: #666; font-style: italic;">
+                            💡 คำนวณจาก: (จำนวนผู้รายงานว่าน่าเชื่อถือ ÷ จำนวนผู้รายงานทั้งหมด) × 100
+                        </small>
+                    </div>
+                    <div class="info-row">
+                        <strong>📊 สถานะปัจจุบัน:</strong>
+                        <span class="status-badge status-{{ rumour.status }}">
+                            {{ rumour.status }}
+                        </span>
+                    </div>
+                    <div class="info-row">
+                        <strong>🚨 จำนวนรายงาน:</strong>
+                        <span class="report-count-badge">{{ report_count }} รายงาน</span>
+                    </div>
+                    {% if rumour.is_verified %}
+                        <div class="info-row">
+                            <strong>✅ สถานะการตรวจสอบ:</strong>
+                            <span class="badge-verified">ตรวจสอบแล้ว</span>
+                        </div>
+                        <div class="info-row">
+                            <strong>ผลการตรวจสอบ:</strong>
+                            {% if rumour.verification_result == 'ข้อมูลเท็จ' %}
+                                <span class="badge-false">❌ ข้อมูลเท็จ</span>
+                            {% elif rumour.verification_result == 'ข้อมูลจริง' %}
+                                <span class="badge-true">✅ ข้อมูลจริง</span>
+                            {% else %}
+                                <span class="verified-text">{{ rumour.verification_result }}</span>
+                            {% endif %}
+                        </div>
+                        {% if rumour.verifier_name %}
+                        <div class="info-row">
+                            <strong>👤 ผู้ตรวจสอบ:</strong>
+                            <span>{{ rumour.verifier_name }} (รหัส: {{ rumour.verifier_code }})</span>
+                        </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if not rumour.is_verified %}
+                <!-- ฟอร์มสำหรับผู้ใช้ทั่วไปรายงานข่าว -->
+                <div class="report-section">
+                    <h3>📝 รายงานข่าวลือนี้ (สำหรับผู้ใช้ทั่วไป)</h3>
+                    <p class="section-note">
+                        <strong>หมายเหตุ:</strong> เฉพาะผู้ใช้ทั่วไป สามารถรายงานข่าวลือได้ หากมีรายงาน <strong>>= 5 ครั้ง</strong> ข่าวจะเข้าสู่สถานะ PANIC
+                    </p>
+                    <form method="POST" action="{{ url_for('report_rumour', rumour_id=rumour.rumour_id) }}" class="report-form">
+                        <div class="form-group">
+                            <label for="user_id">เลือกผู้ใช้:</label>
+                            <select name="user_id" id="user_id" required>
+                                <option value="">-- เลือกผู้ใช้ --</option>
+                                {% for user in users %}
+                                    {% if user.role == 'ผู้ใช้ทั่วไป' %}
+                                        <option value="{{ user.user_id }}">
+                                            [{{ user.username }}] {{ user.name }} (ผู้ใช้ทั่วไป)
+                                        </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="report_type">ประเภทรายงาน:</label>
+                            <select name="report_type" id="report_type" required>
+                                <option value="">-- เลือกประเภท --</option>
+                                <option value="บิดเบือน">บิดเบือน</option>
+                                <option value="ปลุกปั่น">ปลุกปั่น</option>
+                                <option value="ข้อมูลเท็จ">ข้อมูลเท็จ</option>
+                                <option value="น่าเชื่อถือ">น่าเชื่อถือ</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-danger">🚨 รายงานข่าวลือนี้</button>
+                    </form>
+                </div>
+
+                <!-- ฟอร์มสำหรับผู้ตรวจสอบยืนยันความจริง (เฉพาะผู้ตรวจสอบ) -->
+                <div class="verify-section">
+                    <h3>✅ ตรวจสอบและยืนยันข้อมูล (เฉพาะผู้ตรวจสอบ)</h3>
+                    <p class="section-note">
+                        <strong>หมายเหตุ:</strong> เฉพาะผู้ตรวจสอบ (รหัส V001-V003) เท่านั้น ที่สามารถตรวจสอบความถูกต้องของข่าวลือได้
+                    </p>
+                    <form method="POST" action="{{ url_for('verify_rumour', rumour_id=rumour.rumour_id) }}" class="verify-form">
+                        <div class="form-group">
+                            <label for="verifier_id">เลือกผู้ตรวจสอบ:</label>
+                            <select name="verifier_id" id="verifier_id" required>
+                                <option value="">-- เลือกผู้ตรวจสอบ --</option>
+                                {% for verifier in verifiers %}
+                                    <option value="{{ verifier.user_id }}">
+                                        {{ verifier.name }} (ผู้ตรวจสอบ: รหัส {{ verifier.verifier_code }})
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="verification_result">ผลการตรวจสอบ:</label>
+                            <select name="verification_result" id="verification_result" required>
+                                <option value="">-- เลือกผลการตรวจสอบ --</option>
+                                <option value="ข้อมูลจริง">✅ ข้อมูลจริง</option>
+                                <option value="ข้อมูลเท็จ">❌ ข้อมูลเท็จ</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">✅ ยืนยันผลการตรวจสอบ</button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="verified-notice">
+                    <h3>✅ ข่าวนี้ถูกตรวจสอบแล้ว</h3>
+                    <p>ไม่สามารถรายงานเพิ่มเติมได้</p>
+                </div>
+            {% endif %}
+
+            <div class="reports-list">
+                <h3>📋 รายการรายงาน ({{ report_count }} รายงาน)</h3>
+                {% if reports %}
+                    <table class="report-table">
+                        <thead>
+                            <tr>
+                                <th>รหัสผู้ใช้</th>
+                                <th>ผู้รายงาน</th>
+                                <th>ประเภทรายงาน</th>
+                                <th>วันที่รายงาน</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for report in reports %}
+                                <tr>
+                                    <td><strong>{{ report.username }}</strong></td>
+                                    <td>{{ report.name }}</td>
+                                    <td>
+                                        {% if report.report_type == 'บิดเบือน' %}
+                                            <span class="report-type-badge report-distort">🔄 บิดเบือน</span>
+                                        {% elif report.report_type == 'ปลุกปั่น' %}
+                                            <span class="report-type-badge report-incite">🔥 ปลุกปั่น</span>
+                                        {% elif report.report_type == 'ข้อมูลเท็จ' %}
+                                            <span class="report-type-badge report-false">❌ ข้อมูลเท็จ</span>
+                                        {% elif report.report_type == 'น่าเชื่อถือ' %}
+                                            <span class="report-type-badge report-credible">✅ น่าเชื่อถือ</span>
+                                        {% else %}
+                                            <span class="report-type">{{ report.report_type }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ report.report_date }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p class="no-data">ยังไม่มีรายงาน</p>
+                {% endif %}
+            </div>
+
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">← กลับหน้ารวมข่าวลือ</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>ระบบติดตามข่าวลือบนสื่อสังคมออนไลน์ | MVC Pattern | Exit Exam 2568</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,991 @@
+/* ==========================================
+   ระบบติดตามข่าวลือ - Stylesheet
+   MVC Pattern | Exit Exam 2568
+   ========================================== */
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Navbar */
+.navbar {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+    margin-bottom: 2rem;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h1 {
+    color: #667eea;
+    font-size: 1.5rem;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #555;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.nav-links a:hover {
+    background: #667eea;
+    color: white;
+}
+
+.nav-links a.active {
+    background: #667eea;
+    color: white;
+}
+
+/* Page Header */
+.page-header {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.page-header h2 {
+    color: #667eea;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: #777;
+    font-size: 1rem;
+}
+
+/* Alerts */
+.alert {
+    padding: 1.2rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    animation: slideDown 0.3s ease;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border-left: 4px solid #28a745;
+}
+
+.alert-warning {
+    background: #fff3cd;
+    color: #856404;
+    border-left: 4px solid #ffc107;
+}
+
+.alert-danger {
+    background: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+
+.alert-error {
+    background: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+
+/* Rumour Feed */
+.rumour-feed {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.rumour-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-left: 5px solid #667eea;
+}
+
+.rumour-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.rumour-card.panic {
+    border-left: 5px solid #dc3545;
+    background: linear-gradient(to right, #fff5f5, white);
+}
+
+.rumour-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.rumour-id {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: bold;
+}
+
+.status-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.status-ปกติ {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-panic {
+    background: #dc3545;
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.rumour-title {
+    color: #333;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.rumour-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.rumour-stats {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: #f8f9fa;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #667eea;
+}
+
+.stat-label {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.verified-badge {
+    background: #28a745;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: #667eea;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #5568d3;
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+}
+
+.btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #218838;
+}
+
+.btn-sm {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+}
+
+/* Detail Page */
+.detail-container {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Rumour Content Section */
+.rumour-content {
+    background: #f8f9fa;
+    border-left: 4px solid #667eea;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+}
+
+.rumour-content h4 {
+    color: #667eea;
+    font-size: 1.1em;
+    margin-bottom: 12px;
+}
+
+.rumour-content p {
+    color: #333;
+    line-height: 1.8;
+    font-size: 1.05em;
+    margin: 0;
+}
+
+.rumour-detail {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-left: 5px solid #667eea;
+    background: #f8f9fa;
+}
+
+.rumour-detail.panic {
+    border-left: 5px solid #dc3545;
+    background: linear-gradient(to right, #fff5f5, #f8f9fa);
+}
+
+.rumour-detail-info {
+    margin-top: 1rem;
+}
+
+.info-row {
+    display: flex;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-row strong {
+    min-width: 200px;
+    color: #495057;
+}
+
+.report-count-badge {
+    background: #667eea;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.verified-text {
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* Verification Status Badges */
+.badge-verified {
+    display: inline-block;
+    background: white;
+    color: #28a745;
+    border: 2px solid #28a745;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.badge-false {
+    display: inline-block;
+    background: #dc3545;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.badge-true {
+    display: inline-block;
+    background: #28a745;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+/* Report Section - สำหรับผู้ใช้ทั่วไปรายงาน */
+.report-section {
+    background: #fff8f0;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    border: 2px solid #ffc107;
+}
+
+.report-section h3 {
+    color: #ff9800;
+    margin-bottom: 1rem;
+}
+
+/* Verify Section - สำหรับผู้ตรวจสอบ */
+.verify-section {
+    background: #f0fff4;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    border: 2px solid #28a745;
+}
+
+.verify-section h3 {
+    color: #28a745;
+    margin-bottom: 1rem;
+}
+
+.report-form, .verify-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+/* Verify Section - สำหรับผู้ตรวจสอบ */
+.verify-section {
+    background: #f0fff4;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    border: 2px solid #28a745;
+}
+
+.verify-section h3 {
+    color: #28a745;
+    margin-bottom: 1rem;
+}
+
+.report-form, .verify-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.form-group select {
+    padding: 0.7rem;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.verified-notice {
+    background: #d4edda;
+    color: #155724;
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 2rem;
+    border: 2px solid #28a745;
+}
+
+/* Reports List */
+.reports-list {
+    margin-bottom: 2rem;
+}
+
+.reports-list h3 {
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.report-table thead {
+    background: #667eea;
+    color: white;
+}
+
+.report-table th,
+.report-table td {
+    padding: 1rem;
+    text-align: left;
+}
+
+.report-table tbody tr {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.report-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.report-type {
+    background: #ffc107;
+    color: #856404;
+    padding: 0.3rem 0.8rem;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Summary Page */
+.summary-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    color: #667eea;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 3px solid #667eea;
+}
+
+.section-note {
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+    color: #856404;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.section-note strong {
+    color: #dc3545;
+    font-size: 1.1em;
+}
+
+.verified-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.verified-card {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-left: 5px solid #28a745;
+}
+
+.verification-result {
+    margin: 1rem 0;
+    padding: 0.8rem;
+    background: white;
+    border-radius: 5px;
+}
+
+.result-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-left: 0.5rem;
+}
+
+.result-ข้อมูลเท็จ {
+    background: #dc3545;
+    color: white;
+}
+
+.result-ข้อมูลจริง {
+    background: #28a745;
+    color: white;
+}
+
+/* Stats Summary */
+.stats-summary {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+/* Dashboard สถิติที่คลิกได้ */
+.stats-dashboard {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.stats-grid-dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.stat-card-link {
+    text-decoration: none;
+    display: block;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+}
+
+.stat-card-link:hover::before {
+    transform: translateX(0);
+}
+
+.stat-card-link:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* สีตาม HCI principles */
+.stat-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+}
+
+.stat-success {
+    background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+}
+
+.stat-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+    color: #333;
+}
+
+.stat-info {
+    background: linear-gradient(135deg, #667eea 0%, #5568d3 100%);
+    color: white;
+}
+
+.stat-icon {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.stat-sublabel {
+    font-size: 0.85rem;
+    opacity: 0.85;
+    margin-top: 0.5rem;
+}
+
+/* ตารางสถิติ */
+.stats-table-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    overflow-x: auto;
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    margin-top: 1rem;
+}
+
+.stats-table thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.stats-table th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.stats-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.stats-table tbody tr {
+    transition: background 0.2s;
+}
+
+.stats-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.row-verified {
+    background: #d4edda;
+}
+
+.row-verified:hover {
+    background: #c3e6cb !important;
+}
+
+.row-pending {
+    background: #fff3cd;
+}
+
+.row-pending:hover {
+    background: #ffe8a1 !important;
+}
+
+.cell-title {
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cell-center {
+    text-align: center;
+}
+
+.badge-table {
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.badge-panic {
+    background: #dc3545;
+    color: white;
+    animation: pulse 2s infinite;
+}
+
+.badge-count {
+    background: #667eea;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.score-badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.score-low {
+    background: #dc3545;
+    color: white;
+}
+
+.score-medium {
+    background: #ffc107;
+    color: #333;
+}
+
+.score-high {
+    background: #28a745;
+    color: white;
+}
+
+.badge-verified {
+    background: #28a745;
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    font-size: 0.85rem;
+}
+
+.badge-pending {
+    background: #ffc107;
+    color: #333;
+    padding: 0.4rem 0.8rem;
+    border-radius: 5px;
+    font-size: 0.85rem;
+}
+
+.btn-table {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #667eea;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    transition: background 0.3s;
+}
+
+.btn-table:hover {
+    background: #5568d3;
+}
+
+/* ส่วนหัวของแต่ละ section */
+.section-danger {
+    color: #dc3545;
+    border-bottom: 3px solid #dc3545;
+}
+
+.section-success {
+    color: #28a745;
+    border-bottom: 3px solid #28a745;
+}
+
+/* ปุ่มดูเพิ่มเติม */
+.btn-load-more {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-load-more:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-number-large {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label-large {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* No Data */
+.no-data {
+    text-align: center;
+    padding: 2rem;
+    color: #6c757d;
+    font-style: italic;
+}
+
+/* Report Type Badges */
+.report-type-badge {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.report-distort {
+    background: #ff9800;
+    color: white;
+}
+
+.report-incite {
+    background: #f44336;
+    color: white;
+}
+
+.report-false {
+    background: #dc3545;
+    color: white;
+}
+
+.report-credible {
+    background: #28a745;
+    color: white;
+}
+
+/* Footer */
+footer {
+    background: rgba(255, 255, 255, 0.95);
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 3rem;
+    color: #666;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar .container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .rumour-info {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .stats-grid,
+    .stats-grid-dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    .report-table,
+    .stats-table {
+        font-size: 0.9rem;
+    }
+
+    .report-table th,
+    .report-table td,
+    .stats-table th,
+    .stats-table td {
+        padding: 0.7rem;
+    }
+    
+    .stats-table-section {
+        padding: 1rem;
+    }
+    
+    .cell-title {
+        max-width: 150px;
+    }
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>หน้ารวมข่าวลือ - Rumor Tracking System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1>🔍 ระบบติดตามข่าวลือ</h1>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" class="active">หน้ารวมข่าวลือ</a>
+                <a href="{{ url_for('summary') }}">หน้าสรุปผล</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>📰 หน้ารวมข่าวลือ</h2>
+            <p class="subtitle">แสดงข่าวลือทั้งหมด เรียงตามจำนวนรายงาน (ความร้อนแรง)</p>
+            <p class="section-note">
+                <strong>หมายเหตุ:</strong> ข่าวลือที่มีรายงาน <strong>>= 5 ครั้ง</strong> จะเข้าสู่สถานะ PANIC | 
+                ผู้ใช้ทั่วไป (7 คน) สามารถรายงานข่าวได้ | 
+                ผู้ตรวจสอบ (3 คน: รหัส V001-V003) สามารถตรวจสอบความถูกต้องของข่าวได้
+            </p>
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="rumour-feed">
+            {% for rumour in rumours %}
+                <div class="rumour-card {% if rumour.status == 'panic' %}panic{% endif %}">
+                    <div class="rumour-header">
+                        <span class="rumour-id">รหัส: {{ rumour.rumour_id }}</span>
+                        <span class="status-badge status-{{ rumour.status }}">
+                            {{ rumour.status }}
+                        </span>
+                    </div>
+                    
+                    <h3 class="rumour-title">{{ rumour.title }}</h3>
+                    
+                    <div class="rumour-info">
+                        <span>📱 แหล่งที่มา: {{ rumour.source }}</span>
+                        <span>📅 {{ rumour.created_date[:10] }}</span>
+                        <span>⭐ คะแนนความน่าเชื่อถือ: {{ rumour.credibility_score }}/100</span>
+                    </div>
+                    
+                    <div class="rumour-stats">
+                        <div class="stat">
+                            <span class="stat-number">{{ rumour.report_count }}</span>
+                            <span class="stat-label">รายงาน</span>
+                        </div>
+                        {% if rumour.is_verified %}
+                            <div class="verified-badge">
+                                <span class="badge-verified">✅ ตรวจสอบแล้ว</span>
+                                {% if rumour.verification_result == 'ข้อมูลเท็จ' %}
+                                    <span class="badge-false">❌ ข้อมูลเท็จ</span>
+                                {% elif rumour.verification_result == 'ข้อมูลจริง' %}
+                                    <span class="badge-true">✅ ข้อมูลจริง</span>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="card-footer">
+                        <a href="{{ url_for('detail', rumour_id=rumour.rumour_id) }}" class="btn btn-primary btn-sm">
+                            ดูรายละเอียด →
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <footer>
+        <p>ระบบติดตามข่าวลือบนสื่อสังคมออนไลน์ | MVC Pattern | Exit Exam 2568</p>
+    </footer>
+</body>
+</html>
